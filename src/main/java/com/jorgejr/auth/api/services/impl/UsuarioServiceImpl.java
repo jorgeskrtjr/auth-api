@@ -15,6 +15,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioDto salvar(UsuarioDto usuarioDto) {
 
+        Usuario usuarioExists = usuarioRepository.findByLogin(usuarioDto.login());
+
+        if(usuarioExists != null) {
+            throw new RuntimeException("Usuário já existe");
+        }
+
         Usuario entity = new Usuario(usuarioDto.nome(), usuarioDto.login(), usuarioDto.senha());
         Usuario novoUsuario = usuarioRepository.save(entity);
 
